@@ -76,6 +76,8 @@ const parseBody = (request, response, handler) => {
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
 
+  console.log('run');
+
   if (parsedUrl.pathname === '/addUser') {
     parseBody(request, response, jsonHandler.addUser);
   } else if (urlStruct[request.method][parsedUrl.pathname]) {

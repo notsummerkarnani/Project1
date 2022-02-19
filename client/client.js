@@ -43,23 +43,25 @@ const handleResponse = async(response) => {
 
 //Uses fetch to send a postRequest. Marksed as async because we use await
 //within it.
-const sendPost = async(nameForm) => {
+const sendPost = async(foodForm) => {
     //Grab all the info from the form
-    const nameAction = nameForm.getAttribute('action');
-    const nameMethod = nameForm.getAttribute('method');
+    const foodAction = foodForm.getAttribute('action');
+    const foodMethod = foodForm.getAttribute('method');
 
-    const nameField = nameForm.querySelector('#nameField');
-    const ageField = nameForm.querySelector('#ageField');
+    const foodField = foodForm.querySelector('#foodField');
+    const categorySelect = foodForm.querySelector('#categorySelect');
+    const quantityField = foodForm.querySelector('#quantityField');
+    const units = foodForm.querySelector('#measurementSelect');
 
     //Build a data string in the FORM-URLENCODED format.
-    const formData = `name=${nameField.value}&age=${ageField.value}`;
+    const formData = `food=${foodField.value}&category=${categorySelect.value}&quantity=${quantityField.value}&units=${units.value}`;
 
     //Make a fetch request and await a response. Set the method to
     //the one provided by the form (POST). Set the headers. Content-Type
     //is the type of data we are sending. Accept is the data we would like
     //in response. Then add our FORM-URLENCODED string as the body of the request.
-    let response = await fetch(nameAction, {
-        method: nameMethod,
+    let response = await fetch(foodAction, {
+        method: foodMethod,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
@@ -71,16 +73,16 @@ const sendPost = async(nameForm) => {
     handleResponse(response);
 };
 
-const getPost = async(userForm) => {
+const getPost = async(pantryForm) => {
     //Grab all the info from the form
-    const urlField = userForm.querySelector('#urlField');
+    //const categorySelect = document.querySelector('#categorySelect2');
     const methodField = document.querySelector('#methodSelect');
 
     //Make a fetch request and await a response. Set the method to
     //the one provided by the form (POST). Set the headers. Content-Type
     //is the type of data we are sending. Accept is the data we would like
     //in response. Then add our FORM-URLENCODED string as the body of the request.
-    let response = await fetch(urlField.value, {
+    let response = await fetch('/getPantry', {
         method: methodField.value,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -93,26 +95,26 @@ const getPost = async(userForm) => {
 
 const init = () => {
     //Grab the form
-    const nameForm = document.querySelector('#nameForm');
-    const userForm = document.querySelector('#userForm');
+    const foodForm = document.querySelector('#foodForm');
+    const pantryForm = document.querySelector('#pantryForm');
 
     //Create an addUser function that cancels the forms default action and
     //calls our sendPost function above.
     const addUser = (e) => {
         e.preventDefault();
-        sendPost(nameForm);
+        sendPost(foodForm);
         return false;
     }
 
     const getUser = (e) => {
         e.preventDefault();
-        getPost(userForm)
+        getPost(pantryForm)
         return false;
     }
 
     //Call addUser when the submit event fires on the form.
-    nameForm.addEventListener('submit', addUser);
-    userForm.addEventListener('submit', getUser);
+    foodForm.addEventListener('submit', addUser);
+    pantryForm.addEventListener('submit', getUser);
 };
 
 //When the window loads, run init.

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Our simple HTTP server</title>
+    <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <script src="bundle.js"></script>
@@ -10,23 +10,62 @@
 
 <body>
     <section id="top">
-        <h3>POST Status Code Tests</h3>
-        <form id="nameForm" action="/addUser" method="post">
-            <label for="name">Name: </label>
-            <input id="nameField" type="text" name="name" />
-            <label for="age">Age: </label>
-            <input id="ageField" type="number" name="age" min="0" max="100" step="1" />
-            <input type="submit" value="Add User" />
+        <h3>Project 1</h3>
+        <form id="foodForm" action="/addFood" method="post">
+            <label for="food">Product: </label>
+            <input id="foodield" type="text" name="food" />
+
+            <select id='categoryField'>
+                <option value='canned goods'>canned goods</option>
+                <option value='condiments'>condiments</option>
+                <option value='produce'>produce</option>
+                <option value='meats'>meats</option>
+                <option value='dairy'>dairy</option>
+                <option value='breakfast'>breakfast</option>
+                <option value='pasta and rice'>pasta and rice</option>
+                <option value='microwave'>microwave</option>
+                <option value='beverages'>beverages</option>
+                <option value='bakery'>bakery</option>
+                <option value='oils'>oils</option>
+                <option selected value='miscellaneous'>miscellaneous</option>
+            </select>
+
+            <input id="quantityField" type="number" name="quantityField" />
+
+            <select name="measurementType" id="measurementSelect">
+                <option value="cups">cups</option>
+                <option value="fl oz">fluid ounces</option>
+                <option value="grams">grams</option>
+                <option value="units">units</option>
+                <option value="bunch">bunch</option>
+            </select>
+
+            <input type="submit" value="Add food" />
         </form>
-        <form id="userForm" action="/getUsers" method="get">
-            <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
+
+        <form id="pantryForm" action="/getPantry" method="get">
+
+            <select id='getCategoryField'>
+                <option value="all">all</option>
+                <option value='canned goods'>canned goods</option>
+                <option value='condiments'>condiments</option>
+                <option value='produce'>produce</option>
+                <option value='meats'>meats</option>
+                <option value='dairy'>dairy</option>
+                <option value='breakfast'>breakfast</option>
+                <option value='pasta and rice'>pasta and rice</option>
+                <option value='microwave'>microwave</option>
+                <option value='beverages'>beverages</option>
+                <option value='bakery'>bakery</option>
+                <option value='oils'></option>
+                <option value='miscellaneous'>miscellaneous</option>
+            </select>
+
             <select id="methodSelect">
-        <option value="get">GET</option>
-        <option value="HEAD">HEAD</option>
-      </select>
+                <option value="get">GET</option>
+                 <option value="HEAD">HEAD</option>
+            </select>
+
             <input type="submit" value="Get User" />
         </form>
     </section>
