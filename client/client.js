@@ -28,7 +28,7 @@ const handleResponse = async(response) => {
     let obj = await response.text();
 
     //check if its just a head and end the function
-    if (!obj) return;
+    if (!obj) return 0;
 
     obj = JSON.parse(obj);
     console.log(obj);
@@ -36,9 +36,20 @@ const handleResponse = async(response) => {
     if (obj.message) {
         content.innerHTML += `<p>Message: ${obj.message}</p>`;
     }
-    if (obj.users) {
-        content.innerHTML += `<p>${JSON.stringify(obj.users)}</p>`
+    if (obj.pantry) {
+        let category = document.querySelector('#getCategoryField').value;
+        if (category === 'all') {
+            content.innerHTML += `<p>${JSON.stringify(obj.pantry)}</p>`
+        } else {
+            if (obj.pantry[category]) {
+                content.innerHTML += `<p>${JSON.stringify(obj.pantry[category])}</p>`
+            } else {
+                content.innerHTML += `<p>Nothing in the pantry from the category ${category}</p>`
+            }
+        }
     }
+
+    return obj;
 };
 
 //Uses fetch to send a postRequest. Marksed as async because we use await
@@ -49,9 +60,9 @@ const sendPost = async(foodForm) => {
     const foodMethod = foodForm.getAttribute('method');
 
     const foodField = foodForm.querySelector('#foodField');
-    const categorySelect = foodForm.querySelector('#categorySelect');
+    const categorySelect = document.querySelector('#categoryField');
     const quantityField = foodForm.querySelector('#quantityField');
-    const units = foodForm.querySelector('#measurementSelect');
+    const units = document.querySelector('#measurementField');
 
     //Build a data string in the FORM-URLENCODED format.
     const formData = `food=${foodField.value}&category=${categorySelect.value}&quantity=${quantityField.value}&units=${units.value}`;

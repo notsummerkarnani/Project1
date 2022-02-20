@@ -13,7 +13,7 @@
         <h3>Project 1</h3>
         <form id="foodForm" action="/addFood" method="post">
             <label for="food">Product: </label>
-            <input id="foodield" type="text" name="food" />
+            <input id="foodField" type="text" name="food" />
 
             <select id='categoryField'>
                 <option value='canned goods'>canned goods</option>
@@ -30,9 +30,10 @@
                 <option selected value='miscellaneous'>miscellaneous</option>
             </select>
 
+            <label for="quantityField">Quantity: </label>
             <input id="quantityField" type="number" name="quantityField" />
 
-            <select name="measurementType" id="measurementSelect">
+            <select name="measurementType" id="measurementField">
                 <option value="cups">cups</option>
                 <option value="fl oz">fluid ounces</option>
                 <option value="grams">grams</option>
@@ -57,7 +58,7 @@
                 <option value='microwave'>microwave</option>
                 <option value='beverages'>beverages</option>
                 <option value='bakery'>bakery</option>
-                <option value='oils'></option>
+                <option value='oils'>oils</option>
                 <option value='miscellaneous'>miscellaneous</option>
             </select>
 
