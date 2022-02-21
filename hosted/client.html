@@ -4,11 +4,12 @@
 <head>
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-
-    <script src="bundle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="bundle.js" type="module"></script>
 </head>
 
 <body>
+    <my-nav></my-nav>
     <section id="top">
         <h3>Project 1</h3>
         <form id="foodForm" action="/addFood" method="post">
@@ -72,6 +73,7 @@
     </section>
     <section id="content">
     </section>
+    <my-footer></my-footer>
 </body>
 
 </html>

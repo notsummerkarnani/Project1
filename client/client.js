@@ -1,3 +1,8 @@
+//import web components
+import '../components/my-footer.js';
+import '../components/my-nav.js';
+import '../components/my-banner.js';
+
 const handleResponse = async(response) => {
 
     //Grab the content section
@@ -31,7 +36,7 @@ const handleResponse = async(response) => {
     if (!obj) return 0;
 
     obj = JSON.parse(obj);
-    console.log(obj);
+
     //If we have a message, display it.
     if (obj.message) {
         content.innerHTML += `<p>Message: ${obj.message}</p>`;
@@ -39,7 +44,8 @@ const handleResponse = async(response) => {
     if (obj.pantry) {
         let category = document.querySelector('#getCategoryField').value;
         if (category === 'all') {
-            content.innerHTML += `<p>${JSON.stringify(obj.pantry)}</p>`
+            content.innerHTML += `<p>${JSON.stringify(obj.pantry)}</p>`;
+
         } else {
             if (obj.pantry[category]) {
                 content.innerHTML += `<p>${JSON.stringify(obj.pantry[category])}</p>`
@@ -48,8 +54,6 @@ const handleResponse = async(response) => {
             }
         }
     }
-
-    return obj;
 };
 
 //Uses fetch to send a postRequest. Marksed as async because we use await
