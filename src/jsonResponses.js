@@ -22,9 +22,9 @@ const getPantry = (request, response, query) => {
         let queryparam = query.split('=')[1];
 
         if (pantry[queryparam]) {
-            let temp = pantry[queryparam];
             responseJSON = {
-                [queryparam]: pantry[queryparam] };
+                [queryparam]: pantry[queryparam]
+            };
         } else {
             responseJSON = {
                 message: 'The page you are looking for was not found.',
