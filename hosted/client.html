@@ -10,67 +10,101 @@
 
 <body>
     <my-nav></my-nav>
-    <section id="top">
-        <h3>Project 1</h3>
-        <form id="foodForm" action="/addFood" method="post">
-            <label for="food">Product: </label>
-            <input id="foodField" type="text" name="food" />
+    <div class="columns has-text-centered">
+        <div class="column is-three-fifths notification is-info">
+            <div class="subtitle">Add food to pantry</div>
+            <hr>
+            <form class="field" id="foodForm" action="/addFood" method="post">
 
-            <select id='categoryField'>
-                <option value='canned goods'>canned goods</option>
-                <option value='condiments'>condiments</option>
-                <option value='produce'>produce</option>
-                <option value='meats'>meats</option>
-                <option value='dairy'>dairy</option>
-                <option value='breakfast'>breakfast</option>
-                <option value='pasta and rice'>pasta and rice</option>
-                <option value='microwave'>microwave</option>
-                <option value='beverages'>beverages</option>
-                <option value='bakery'>bakery</option>
-                <option value='oils'>oils</option>
-                <option selected value='miscellaneous'>miscellaneous</option>
-            </select>
+                <div class="columns">
+                    <div class="column">
+                        <label class="label" for="food">Product and Category: </label>
+                        <div class="control">
+                            <input class="input" id="foodField" type="text" name="food" placeholder="Food Item Name" />
+                        </div>
 
-            <label for="quantityField">Quantity: </label>
-            <input id="quantityField" type="number" name="quantityField" />
+                        <div class="control">
+                            <div class="select">
+                                <select id='categoryField'>
+                                    <option value='canned goods'>canned goods</option>
+                                    <option value='condiments'>condiments</option>
+                                    <option value='produce'>produce</option>
+                                    <option value='meats'>meats</option>
+                                    <option value='dairy'>dairy</option>
+                                    <option value='breakfast'>breakfast</option>
+                                    <option value='pasta and rice'>pasta and rice</option>
+                                    <option value='microwave'>microwave</option>
+                                    <option value='beverages'>beverages</option>
+                                    <option value='bakery'>bakery</option>
+                                    <option value='oils'>oils</option>
+                                    <option selected value='miscellaneous'>miscellaneous</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" for="quantityField">Quantity: </label>
 
-            <select name="measurementType" id="measurementField">
-                <option value="cups">cups</option>
-                <option value="fl oz">fluid ounces</option>
-                <option value="grams">grams</option>
-                <option value="units">units</option>
-                <option value="bunch">bunch</option>
-            </select>
+                        <div class="control">
+                            <input class="input" id="quantityField" type="number" name="quantityField" placeholder="10" />
 
-            <input type="submit" value="Add food" />
-        </form>
+                            <div class="select">
+                                <select name="measurementType" id="measurementField">
+                                <option value="cups">cups</option>
+                                <option value="fl oz">fluid ounces</option>
+                                <option value="grams">grams</option>
+                                <option value="units">units</option>
+                                <option value="bunch">bunch</option>
+                        </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-primary">Add Food</button>
+                </div>
+            </form>
+        </div>
 
-        <form id="pantryForm" action="/getPantry" method="get">
+        <div class="column is-one-third notification is-info">
+            <div class="subtitle">Get food from pantry</div>
+            <hr>
+            <form class="field" id="pantryForm" action="/getPantry" method="get">
+                <div class="control">
+                    <div class="select">
+                        <select id='getCategoryField' name="pantryForm">
+                            <option value="all">all</option>
+                            <option value='canned goods'>canned goods</option>
+                            <option value='condiments'>condiments</option>
+                            <option value='produce'>produce</option>
+                            <option value='meats'>meats</option>
+                            <option value='dairy'>dairy</option>
+                            <option value='breakfast'>breakfast</option>
+                            <option value='pasta and rice'>pasta and rice</option>
+                            <option value='microwave'>microwave</option>
+                            <option value='beverages'>beverages</option>
+                            <option value='bakery'>bakery</option>
+                            <option value='oils'>oils</option>
+                            <option value='miscellaneous'>miscellaneous</option>
+                        </select>
+                    </div>
+                </div>
 
-            <select id='getCategoryField'>
-                <option value="all">all</option>
-                <option value='canned goods'>canned goods</option>
-                <option value='condiments'>condiments</option>
-                <option value='produce'>produce</option>
-                <option value='meats'>meats</option>
-                <option value='dairy'>dairy</option>
-                <option value='breakfast'>breakfast</option>
-                <option value='pasta and rice'>pasta and rice</option>
-                <option value='microwave'>microwave</option>
-                <option value='beverages'>beverages</option>
-                <option value='bakery'>bakery</option>
-                <option value='oils'>oils</option>
-                <option value='miscellaneous'>miscellaneous</option>
-            </select>
+                <div class="control">
+                    <div class="select">
+                        <select id="methodSelect">
+                            <option value="get">GET</option>
+                            <option value="HEAD">HEAD</option>
+                        </select>
+                    </div>
+                </div>
 
-            <select id="methodSelect">
-                <option value="get">GET</option>
-                 <option value="HEAD">HEAD</option>
-            </select>
-
-            <input type="submit" value="Get User" />
-        </form>
-    </section>
+                <div class="control">
+                    <button class="button is-primary" type="submit">Get Food</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <section id="content" class="content">
     </section>
     <my-footer></my-footer>

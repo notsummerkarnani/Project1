@@ -60,7 +60,7 @@ const populateField = (obj, element) => {
 
         for (let k of Object.keys(obj.pantry)) {
             tilecounter++;
-            listhtml += `<div class="tile is-parent is-4"><div class="tile is-child notification is-primary"><b>${k}</b><ul>`;
+            listhtml += `<div class="tile is-parent"><div class="tile is-child box notification is-primary"><b>${k}</b><ul>`;
             for (let l of Object.keys(obj.pantry[k])) {
                 listhtml += `<li> ${obj.pantry[k][l].quantity} ${obj.pantry[k][l].units} of ${obj.pantry[k][l].food}</li>`;
             }

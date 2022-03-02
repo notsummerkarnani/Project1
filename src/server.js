@@ -81,7 +81,7 @@ const onRequest = (request, response) => {
     if (parsedUrl.pathname === '/addFood') {
         parseBody(request, response, jsonHandler.addFood);
     } else if (urlStruct[request.method][parsedUrl.pathname]) {
-        urlStruct[request.method][parsedUrl.pathname](request, response);
+        urlStruct[request.method][parsedUrl.pathname](request, response, parsedUrl.query);
     } else {
         urlStruct.notFound(request, response);
     }

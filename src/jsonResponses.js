@@ -14,8 +14,24 @@ const respondJSONHead = (request, response, status) => {
     response.end();
 };
 
-const getPantry = (request, response) => {
-    const responseJSON = { pantry }
+const getPantry = (request, response, query) => {
+    let responseJSON = {};
+    if (!query) {
+        responseJSON = { pantry }
+    } else {
+        let queryparam = query.split('=')[1];
+
+        if (pantry[queryparam]) {
+            let temp = pantry[queryparam];
+            responseJSON = {
+                [queryparam]: pantry[queryparam] };
+        } else {
+            responseJSON = {
+                message: 'The page you are looking for was not found.',
+                id: 'notFound',
+            };
+        }
+    }
 
     return respondJSON(request, response, 200, responseJSON);
 };
@@ -33,6 +49,10 @@ const notReal = (request, response) => {
 const notRealHead = (request, response) => respondJSONHead(request, response, 404);
 
 const addFood = (request, response, params) => {
+
+    console.log(request.params);
+
+
     // object including the message to send back
     const responseJSON = {
         message: 'Food name and quantity are both required',
