@@ -56,9 +56,9 @@ const addFood = (request, response, params) => {
         pantry[params.category][params.food] = {};
     }
 
-    // either adds or updates
+    //add data
     pantry[params.category][params.food].food = params.food;
-    pantry[params.category][params.food].quantity += params.quantity;
+    pantry[params.category][params.food].quantity = params.quantity;
     pantry[params.category][params.food].category = params.category;
     pantry[params.category][params.food].units = params.units;
 

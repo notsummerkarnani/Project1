@@ -30,6 +30,8 @@ const handleResponse = async(response) => {
             break;
     }
 
+    content.innerHTML += '<hr>';
+
     let obj = await response.text();
 
     //check if its just a head and end the function
@@ -42,19 +44,49 @@ const handleResponse = async(response) => {
         content.innerHTML += `<p>Message: ${obj.message}</p>`;
     }
     if (obj.pantry) {
-        let category = document.querySelector('#getCategoryField').value;
-        if (category === 'all') {
-            content.innerHTML += `<p>${JSON.stringify(obj.pantry)}</p>`;
-
-        } else {
-            if (obj.pantry[category]) {
-                content.innerHTML += `<p>${JSON.stringify(obj.pantry[category])}</p>`
-            } else {
-                content.innerHTML += `<p>Nothing in the pantry from the category ${category}</p>`
-            }
-        }
+        await populateField(obj, content);
     }
 };
+
+const populateField = (obj, element) => {
+    let category = document.querySelector('#getCategoryField').value;
+
+    //build list html
+    let listhtml = '';
+    listhtml += '<div class="tile is-ancestor notification is-info">'
+
+    let tilecounter = 0;
+    if (category === 'all') {
+
+        for (let k of Object.keys(obj.pantry)) {
+            tilecounter++;
+            listhtml += `<div class="tile is-parent is-4"><div class="tile is-child notification is-primary"><b>${k}</b><ul>`;
+            for (let l of Object.keys(obj.pantry[k])) {
+                listhtml += `<li> ${obj.pantry[k][l].quantity} ${obj.pantry[k][l].units} of ${obj.pantry[k][l].food}</li>`;
+            }
+            listhtml += '</ul></div></div>';
+
+            //start tiles on new row if there are already 3 on the same one
+            if (tilecounter % 3 === 0) {
+                listhtml += '</div><div class="tile is-ancestor notification is-info">';
+            }
+        }
+
+    } else {
+        if (obj.pantry[category]) {
+            listhtml += `<div class="tile is-child notification is-primary"><b>${category}</b><ul>`;
+            for (let l of Object.keys(obj.pantry[category])) {
+                listhtml += `<li> ${obj.pantry[category][l].quantity} ${obj.pantry[category][l].units} of ${obj.pantry[category][l].food}</li>`;
+            }
+            listhtml += '</ul></div>';
+        } else {
+            listhtml += `<p>Nothing in the pantry from the category ${category}</p>`
+        }
+    }
+    listhtml += '</div></div>';
+
+    element.innerHTML += listhtml
+}
 
 //Uses fetch to send a postRequest. Marksed as async because we use await
 //within it.

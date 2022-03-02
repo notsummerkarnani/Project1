@@ -26,7 +26,7 @@ class MyBanner extends HTMLElement {
         }
     }
 
-    disconnectedCalbback() {
+    disconnectedCallback() {
         this.endButton.onclick = null;
     }
 
