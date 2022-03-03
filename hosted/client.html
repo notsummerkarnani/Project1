@@ -9,7 +9,10 @@
 </head>
 
 <body>
-    <my-nav></my-nav>
+    <my-nav data-page="/"></my-nav>
+    <my-banner data-text="Welcome to the Pantry"></my-banner>
+    <my-banner data-text="Here you can store the information about the food in your kitchen"></my-banner>
+
     <div class="columns has-text-centered">
         <div class="column is-three-fifths notification is-info">
             <div class="subtitle">Add food to pantry</div>
@@ -70,35 +73,43 @@
             <div class="subtitle">Get food from pantry</div>
             <hr>
             <form class="field" id="pantryForm" action="/getPantry" method="get">
-                <div class="control">
-                    <div class="select">
-                        <select id='getCategoryField' name="pantryForm">
-                            <option value="all">all</option>
-                            <option value='canned goods'>canned goods</option>
-                            <option value='condiments'>condiments</option>
-                            <option value='produce'>produce</option>
-                            <option value='meats'>meats</option>
-                            <option value='dairy'>dairy</option>
-                            <option value='breakfast'>breakfast</option>
-                            <option value='pasta and rice'>pasta and rice</option>
-                            <option value='microwave'>microwave</option>
-                            <option value='beverages'>beverages</option>
-                            <option value='bakery'>bakery</option>
-                            <option value='oils'>oils</option>
-                            <option value='miscellaneous'>miscellaneous</option>
-                        </select>
+                <div class="columns">
+                    <div class="column">
+                        <label class="label" for="getCategoryField">Category</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id='getCategoryField' name="pantryForm">
+                                    <option value="all">all</option>
+                                    <option value='canned goods'>canned goods</option>
+                                    <option value='condiments'>condiments</option>
+                                    <option value='produce'>produce</option>
+                                    <option value='meats'>meats</option>
+                                    <option value='dairy'>dairy</option>
+                                    <option value='breakfast'>breakfast</option>
+                                    <option value='pasta and rice'>pasta and rice</option>
+                                    <option value='microwave'>microwave</option>
+                                    <option value='beverages'>beverages</option>
+                                    <option value='bakery'>bakery</option>
+                                    <option value='oils'>oils</option>
+                                    <option value='miscellaneous'>miscellaneous</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="control">
-                    <div class="select">
-                        <select id="methodSelect">
+                    <div class="column">
+                        <label class="label" for="methodSelect">Method</label>
+
+                        <div class="control">
+                            <div class="select">
+                                <select id="methodSelect">
                             <option value="get">GET</option>
                             <option value="HEAD">HEAD</option>
                         </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
                 <div class="control">
                     <button class="button is-primary" type="submit">Get Food</button>
                 </div>

@@ -35,7 +35,7 @@ class MyFooter extends HTMLElement {
         const name = this.getAttribute('data-name') ? this.getAttribute('data-name') : "Samar Karnani";
         const email = this.getAttribute('data-email') ? this.getAttribute('data-email') : "srk7473@rit.edu";
 
-        this.shadowRoot.querySelector("#footer-output").innerHTML = `&copy; 2021 ${title} || ${name} || ${email}`
+        this.shadowRoot.querySelector("#footer-output").innerHTML = `&copy; 2022 ${title} || ${name} || ${email}`
     }
 }
 

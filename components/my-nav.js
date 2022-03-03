@@ -6,7 +6,7 @@ template.innerHTML = `
 <nav class="navbar is-dark has-shadow">
     <!-- logo / brand -->
     <div class="navbar-brand">
-        <a class="navbar-item fa-2x" href="app.html">
+        <a class="navbar-item fa-2x" href="client.html">
             <i class="fas fa-gamepad"></i>
         </a>
         <a class="navbar-burger" id="burger">
@@ -19,8 +19,6 @@ template.innerHTML = `
     <div class="navbar-menu" id="nav-links">
         <div class="navbar-start">
             <a class="navbar-item is hoverable" href="/">Home</a>
-            <a class="navbar-item is-hoverable" href="app.html">App</a>
-            <a class="navbar-item is-hoverable" href="documentation.html">Documentation</a>
         </div>
     </div>
 </nav>
@@ -37,10 +35,10 @@ class MyNav extends HTMLElement {
         if (this.burgerIcon) this.burgerIcon.onclick = () => this.navbarMenu.classList.toggle('is-active');
 
         const navItems = this.navbarMenu.children[0].children;
-        const thisPage = this.getAttribute('data-page') ? this.getAttribute('data-page') : "home";
+        const thisPage = this.getAttribute('data-page') ? this.getAttribute('data-page') : "/";
 
         for (let k of Object.keys(navItems)) {
-            if (navItems[k].href.split('/').slice(-1) == `${thisPage}.html`) {
+            if (navItems[k].href.split('/').slice(-1) == ``) {
                 navItems[k].classList.add('has-background-warning')
                 navItems[k].classList.add('has-text-black')
             }
