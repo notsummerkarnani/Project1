@@ -1,101 +1,100 @@
 const pantry = {};
 
 const respondJSON = (request, response, status, object) => {
-    response.writeHead(status, { 'Content-Type': 'application/json' });
+  response.writeHead(status, { 'Content-Type': 'application/json' });
 
-    response.write(JSON.stringify(object));
+  response.write(JSON.stringify(object));
 
-    response.end();
+  response.end();
 };
 
 const respondJSONHead = (request, response, status) => {
-    response.writeHead(status, { 'Content-Type': 'application/json' });
+  response.writeHead(status, { 'Content-Type': 'application/json' });
 
-    response.end();
+  response.end();
 };
 
 const getPantry = (request, response, query) => {
-    let responseJSON = {};
+  let responseJSON = {};
 
-    if (query === undefined) {
-        responseJSON = { pantry };
+  if (query === undefined) {
+    responseJSON = { pantry };
+  } else {
+    const queryparam = query.category;
+    if (pantry[queryparam]) {
+      responseJSON = {
+        [queryparam]: pantry[queryparam],
+      };
+    } else if (queryparam === 'all') {
+      responseJSON = { pantry };
     } else {
-        let queryparam = query.category;
-        if (pantry[queryparam]) {
-            responseJSON = {
-                [queryparam]: pantry[queryparam]
-            };
-        } else if (queryparam == 'all') {
-            responseJSON = { pantry };
-        } else {
-            responseJSON = {
-                message: 'The category does not exist or is empty',
-                id: 'notFound',
-            };
-            return respondJSON(request, response, 404, responseJSON);
-        }
+      responseJSON = {
+        message: 'The category does not exist or is empty',
+        id: 'notFound',
+      };
+      return respondJSON(request, response, 404, responseJSON);
     }
+  }
 
-    return respondJSON(request, response, 200, responseJSON);
+  return respondJSON(request, response, 200, responseJSON);
 };
 
 const getPantryHead = (request, response) => respondJSONHead(request, response, 200);
 
 const notReal = (request, response) => {
-    const responseJSON = {
-        message: 'The page you are looking for was not found.',
-        id: 'notFound',
-    };
-    return respondJSON(request, response, 404, responseJSON);
+  const responseJSON = {
+    message: 'The page you are looking for was not found.',
+    id: 'notFound',
+  };
+  return respondJSON(request, response, 404, responseJSON);
 };
 
 const notRealHead = (request, response) => respondJSONHead(request, response, 404);
 
 const addFood = (request, response, params) => {
+  // object including the message to send back
+  const responseJSON = {
+    message: 'Food name and quantity are both required',
+  };
 
-    // object including the message to send back
-    const responseJSON = {
-        message: 'Food name and quantity are both required',
-    };
+  // if either parameter is missing then it's an error
+  if (!params.food || !params.quantity || params.food === '' || params.quantity === '') {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
 
-    // if either parameter is missing then it's an error
-    if (!params.food || !params.quantity || params.food === '' || params.quantity === '') {
-        responseJSON.id = 'missingParams';
-        return respondJSON(request, response, 400, responseJSON);
-    }
+  // next default it to creating a new one
+  let status = 201;
 
-    // next default it to creating a new one
-    let status = 201;
+  if (!pantry[params.category]) { pantry[params.category] = {}; }
 
-    if (!pantry[params.category]) { pantry[params.category] = {} };
+  // change code if it exists, if it doesn't then create it
+  if (pantry[params.category][params.food]) {
+    status = 204;
+  } else {
+    pantry[params.category][params.food] = {};
+  }
 
-    // change code if it exists, if it doesn't then create it
-    if (pantry[params.category][params.food]) {
-        status = 204;
-    } else {
-        pantry[params.category][params.food] = {};
-    }
+  // add data
+  pantry[params.category][params.food].food = params.food;
+  pantry[params.category][params.food].quantity = params.quantity;
+  pantry[params.category][params.food].category = params.category;
+  pantry[params.category][params.food].units = params.units;
 
-    //add data
-    pantry[params.category][params.food].food = params.food;
-    pantry[params.category][params.food].quantity = params.quantity;
-    pantry[params.category][params.food].category = params.category;
-    pantry[params.category][params.food].units = params.units;
+  // sends the response for if it was created
+  if (status === 201) {
+    responseJSON.message = 'Created Successfuly!';
+    return respondJSON(request, response, status, responseJSON);
+  }
 
-    // sends the response for if it was created
-    if (status === 201) {
-        responseJSON.message = 'Created Successfuly!';
-        return respondJSON(request, response, status, responseJSON);
-    }
-
-    // not created, so it must be updated, sends no data just a head
-    return respondJSONHead(request, response, status);
+  // not created, so it must be updated, sends no data just a head
+  return respondJSONHead(request, response, status);
 };
 
 module.exports = {
-    getPantry,
-    getPantryHead,
-    notReal,
-    notRealHead,
-    addFood,
+  getPantry,
+  getPantryHead,
+  notReal,
+  notRealHead,
+  addFood,
 };
