@@ -24,6 +24,7 @@ class MyBanner extends HTMLElement {
         this.endButton.onclick = () => {
             this.remove();
         }
+        this.render();
     }
 
     disconnectedCallback() {
@@ -38,7 +39,14 @@ class MyBanner extends HTMLElement {
 
         this.colourList.classList += " " + colour;
         this.myOutput.innerHTML = text;
+        this.render();
+    }
 
+    render() {
+        const text = this.getAttribute('data-text') ? this.getAttribute('data-text') : "Placeholder Text";
+        const colour = this.getAttribute('data-colour') ? this.getAttribute('data-colour') : " is-warning";
+
+        this.shadowRoot.querySelector("#banner-output").innerText = text;
     }
 
     static get observedAttributes() {

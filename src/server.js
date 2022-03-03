@@ -76,12 +76,10 @@ const parseBody = (request, response, handler) => {
 const onRequest = (request, response) => {
     const parsedUrl = url.parse(request.url);
 
-    console.log('run');
-
     if (parsedUrl.pathname === '/addFood') {
         parseBody(request, response, jsonHandler.addFood);
     } else if (urlStruct[request.method][parsedUrl.pathname]) {
-        urlStruct[request.method][parsedUrl.pathname](request, response, parsedUrl.query);
+        urlStruct[request.method][parsedUrl.pathname](request, response, querystring.parse(parsedUrl.query));
     } else {
         urlStruct.notFound(request, response);
     }

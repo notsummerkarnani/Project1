@@ -16,20 +16,23 @@ const respondJSONHead = (request, response, status) => {
 
 const getPantry = (request, response, query) => {
     let responseJSON = {};
-    if (!query) {
-        responseJSON = { pantry }
-    } else {
-        let queryparam = query.split('=')[1];
 
+    if (query === undefined) {
+        responseJSON = { pantry };
+    } else {
+        let queryparam = query.category;
         if (pantry[queryparam]) {
             responseJSON = {
                 [queryparam]: pantry[queryparam]
             };
+        } else if (queryparam == 'all') {
+            responseJSON = { pantry };
         } else {
             responseJSON = {
-                message: 'The page you are looking for was not found.',
+                message: 'The category does not exist or is empty',
                 id: 'notFound',
             };
+            return respondJSON(request, response, 404, responseJSON);
         }
     }
 
@@ -49,9 +52,6 @@ const notReal = (request, response) => {
 const notRealHead = (request, response) => respondJSONHead(request, response, 404);
 
 const addFood = (request, response, params) => {
-
-    console.log(request.params);
-
 
     // object including the message to send back
     const responseJSON = {

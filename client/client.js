@@ -7,26 +7,39 @@ const handleResponse = async(response) => {
 
     //Grab the content section
     const content = document.querySelector('#content');
+    content.innerHTML = '';
+
+    //create banner to display partial response
+    let banner = document.querySelector('#content').appendChild(document.createElement('my-banner'));
 
     //Based on the status code, display something
     switch (response.status) {
         case 200: //success
-            content.innerHTML = `<b>Success</b>`;
+            banner.setAttribute('data-text', `Success`);
+            banner.setAttribute('data-colour', 'is-primary');
             break;
         case 201: //created
-            content.innerHTML = '<b>Created</b>';
+            banner.setAttribute('data-text', 'Created');
+            banner.setAttribute('data-colour', 'is-primary');
             break;
         case 204: //updated (no response back from server)
-            content.innerHTML = '<b>Updated (No Content)</b>';
+            banner.setAttribute('data-text', 'Updated (No Content)');
+            banner.setAttribute('data-colour', 'is-primary');
             return;
         case 400: //bad request
-            content.innerHTML = `<b>Bad Request</b>`;
+            banner.setAttribute('data-text', `Bad Request`);
+            banner.setAttribute('data-colour', 'is-warning');
+
             break;
         case 404: //Not Found
-            content.innerHTML = `<b>Not Found</b>`;
+            banner.setAttribute('data-text', `Not Found`);
+            banner.setAttribute('data-colour', 'is-warning');
+
             break;
         default: //any other status code
-            content.innerHTML = `Error code not implemented by client.`;
+            banner.setAttribute('data-text', `Error code not implemented by client.`);
+            banner.setAttribute('data-colour', 'is-warning');
+
             break;
     }
 
@@ -38,12 +51,13 @@ const handleResponse = async(response) => {
     if (!obj) return 0;
 
     obj = JSON.parse(obj);
-
+    console.log(obj);
     //If we have a message, display it.
     if (obj.message) {
-        content.innerHTML += `<p>Message: ${obj.message}</p>`;
-    }
-    if (obj.pantry) {
+        let banner2 = document.querySelector('#content').appendChild(document.createElement('my-banner'));
+        banner2.setAttribute('data-text', obj.message);
+        //content.innerHTML += `<p>Message: ${obj.message}</p>`;
+    } else if (obj != null) {
         await populateField(obj, content);
     }
 };
@@ -55,9 +69,10 @@ const populateField = (obj, element) => {
     let listhtml = '';
     listhtml += '<div class="tile is-ancestor notification is-info">'
 
+    console.log(obj);
     let tilecounter = 0;
-    if (category === 'all') {
 
+    if (obj.pantry) {
         for (let k of Object.keys(obj.pantry)) {
             tilecounter++;
             listhtml += `<div class="tile is-parent"><div class="tile is-child box notification is-primary"><b>${k}</b><ul>`;
@@ -71,18 +86,45 @@ const populateField = (obj, element) => {
                 listhtml += '</div><div class="tile is-ancestor notification is-info">';
             }
         }
-
     } else {
-        if (obj.pantry[category]) {
-            listhtml += `<div class="tile is-child notification is-primary"><b>${category}</b><ul>`;
-            for (let l of Object.keys(obj.pantry[category])) {
-                listhtml += `<li> ${obj.pantry[category][l].quantity} ${obj.pantry[category][l].units} of ${obj.pantry[category][l].food}</li>`;
+        //listhtml += `<div class="tile is-parent"><div class="tile is-child box notification is-primary"><b>${k}</b><ul>`;
+        for (let l of Object.keys(obj)) {
+            listhtml += `<div class="tile is-parent"><div class="tile is-child box notification is-primary"><b>${l}</b><ul>`;
+            for (let k of Object.keys(obj[l])) {
+                listhtml += `<li> ${obj[l][k].quantity} ${obj[l][k].units} of ${obj[l][k].food}</li>`;
             }
-            listhtml += '</ul></div>';
-        } else {
-            listhtml += `<p>Nothing in the pantry from the category ${category}</p>`
+            listhtml += '</ul></div></div>';
+
         }
     }
+
+    // if (category === 'all') {
+
+    //     for (let k of Object.keys(obj.pantry)) {
+    //         tilecounter++;
+    //         listhtml += `<div class="tile is-parent"><div class="tile is-child box notification is-primary"><b>${k}</b><ul>`;
+    //         for (let l of Object.keys(obj.pantry[k])) {
+    //             listhtml += `<li> ${obj.pantry[k][l].quantity} ${obj.pantry[k][l].units} of ${obj.pantry[k][l].food}</li>`;
+    //         }
+    //         listhtml += '</ul></div></div>';
+
+    //         //start tiles on new row if there are already 3 on the same one
+    //         if (tilecounter % 3 === 0) {
+    //             listhtml += '</div><div class="tile is-ancestor notification is-info">';
+    //         }
+    //     }
+
+    // } else {
+    //     if (obj[category]) {
+    //         listhtml += `<div class="tile is-child notification is-primary"><b>${category}</b><ul>`;
+    //         for (let l of Object.keys(obj[category])) {
+    //             listhtml += `<li> ${obj[category][l].quantity} ${obj[category][l].units} of ${obj[category][l].food}</li>`;
+    //         }
+    //         listhtml += '</ul></div>';
+    //     } else {
+    //         listhtml += `<p>Nothing in the pantry from the category ${category}</p>`
+    //     }
+    // }
     listhtml += '</div></div>';
 
     element.innerHTML += listhtml
@@ -105,7 +147,7 @@ const sendPost = async(foodForm) => {
 
     //Make a fetch request and await a response. Set the method to
     //the one provided by the form (POST). Set the headers. Content-Type
-    //is the type of data we are sending. Accept is the data we would like
+    //is the type of data we are sending.  is the data we would like
     //in response. Then add our FORM-URLENCODED string as the body of the request.
     let response = await fetch(foodAction, {
         method: foodMethod,
@@ -122,14 +164,18 @@ const sendPost = async(foodForm) => {
 
 const getPost = async(pantryForm) => {
     //Grab all the info from the form
-    //const categorySelect = document.querySelector('#categorySelect2');
+    const categorySelect = document.querySelector('#getCategoryField');
     const methodField = document.querySelector('#methodSelect');
+
+    // console.log(require('url').URLSearchParams({
+    //     category: categorySelect.value,
+    // }));
 
     //Make a fetch request and await a response. Set the method to
     //the one provided by the form (POST). Set the headers. Content-Type
-    //is the type of data we are sending. Accept is the data we would like
+    //is the type of data we are sending.  is the data we would like
     //in response. Then add our FORM-URLENCODED string as the body of the request.
-    let response = await fetch('/getPantry', {
+    let response = await fetch(`/getPantry?category=${categorySelect.value}`, {
         method: methodField.value,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
