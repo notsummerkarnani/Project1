@@ -6,7 +6,7 @@ template.innerHTML = `
 <nav class="navbar is-dark has-shadow">
     <!-- logo / brand -->
     <div class="navbar-brand">
-        <a class="navbar-item fa-2x" href="client.html">
+        <a class="navbar-item fa-2x" href="/">
             <i class="fas fa-gamepad"></i>
         </a>
         <a class="navbar-burger" id="burger">
